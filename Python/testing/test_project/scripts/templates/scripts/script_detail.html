@@ -1,0 +1,38 @@
+{% extends 'scripts/base.html' %}
+{% block title %}Details for {{ user_script.name }}{% endblock %}
+{% block content %}
+  {% if user.is_authenticated %}
+    <h2 id="main-header">Details for "{{ user_script.name }}"</h2>
+    <h3>Description: {{ user_script.description }}</h3>
+    <h3>Owner: {{ user_script.author }}</h3>
+    <span class="script-sql">
+      {{ user_script.script|linebreaks }}
+    </span>
+    {% if error is None and headers|length > 0 %}
+      <h3 id="results-header">Results:</h3>
+      <table border="1" class="content-table">
+        <thead class="script-headers">
+          {% for header in headers %}
+            <th>{{ header }}</th>
+          {% endfor %}
+        </thead>
+        <tbody class="script-results">
+          {% for row in results %}
+            <tr>
+              {% for cell in row %}
+                <td>{{ cell }}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% elif error is not None %}
+      <p>Script is incorrect.</p>
+      <p>{{ error }}</p>
+    {% else %}
+      <p>There are no results for this script.</p>
+    {% endif %}
+  {% else %}
+    <p>Please <a href="{% url 'login' %}">login</a>.</p>
+  {% endif %}
+{% endblock %}

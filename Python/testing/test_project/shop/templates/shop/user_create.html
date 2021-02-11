@@ -1,0 +1,10 @@
+{% extends 'shop/base.html' %}
+{% block title %}Создание нового пользователя{% endblock %}
+{% block content %}
+  <h2 id="main-header">Создание нового пользователя</h2>
+  <form method="POST">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <input type="submit" value="Создать пользователя">
+  </form>
+{% endblock %}

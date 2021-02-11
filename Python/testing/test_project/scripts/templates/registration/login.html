@@ -1,0 +1,15 @@
+{% extends 'scripts/base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+  <h2 id="main-header">Login</h2>
+  {% if form.errors %}
+    <p class="error">Your username and pass didn't match. Please try again.</p>
+  {% else %}
+    <p>Enter your credentials:</p>
+  {% endif %}
+  <form action="." method="post">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <p><input type="submit" value="Login"></p>
+  </form>
+{% endblock %}

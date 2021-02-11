@@ -1,0 +1,93 @@
+{% extends 'kb/base.html' %}
+{% load static %}
+{% load kb_tags %}
+{% block title %}{{ article.name }}{% endblock %}
+{% block content %}
+	<h2 class="article-header">{{ article.name }}</h2>
+	<h3 class="article-author">Автор <u>{{ article.author }}</u></h3>
+	{% if article.author == user or user.is_superuser %}
+		<div class="update-delete">
+			<a href="{% url 'article-edit' article.slug %}" class="editing">Изменить статью</a>
+			<a href="{% url 'article-delete' article.slug %}" class="editing">Удалить статью</a>
+		</div>
+	{% endif %}
+	<div class="main-content">
+		{{ article.text|safe }}
+	</div>
+	<div class="comments">
+		<h3>
+			Комментарии
+			{% if user.is_authenticated %}
+				<span class="link-add" id="comment-add">ДОБАВИТЬ</span>
+			{% endif %}
+		</h3>
+		{% for comment in comments %}
+			<label class="comment-author"><strong>{{ comment.author }}</strong> ({{ comment.created|date:'d.m.Y H:i:s' }})</label>
+			{% if comment.author == user or user.is_superuser %}
+				<a href="{% url 'comment-edit' article.slug comment.id %}" class="editing">Изменить</a>
+				<a href="{% url 'comment-delete' comment.id %}" class="editing">Удалить</a>
+			{% endif %}
+			<span class="comment-span">{{ comment.text|linebreaksbr }}</span>
+		{% empty %}
+			Здесь пока пусто.
+		{% endfor %}
+	</div>
+	<div class="files">
+		<h3>
+			Файлы
+			{% if user.is_authenticated %}
+				<a href="{% url 'article-file-add' article.slug %}" class="link-add">Добавить</a>
+			{% endif %}
+		</h3>
+		<ul class="file-list">
+			{% for file in files %}
+				<li>
+					<a href="{{ file.file.url }}" class="file-link" download>{{ file.get_filename }}</a>
+					{% if file.author == user or user.is_superuser %}
+						<a href="{% url 'file-delete' file.id %}" class="editing">Удалить</a>
+					{% endif %}
+				</li>
+			{% empty %}
+				Файлы отсутствуют.
+			{% endfor %}
+		</ul>
+	</div>
+	<div class="ratings">
+		<h3>
+			Оценки
+			{% if user.is_authenticated and not article|user_comment_exists:user %}
+				<a href="{% url 'article-rating-add' article.slug %}" class="link-add">Добавить</a>
+			{% endif %}
+		</h3>
+		<ul class="rating-list">
+			{% for rating in ratings %}
+				<li class="rating-author">
+					<strong>{{ rating.author }}</strong><span class="rating-value"> - {{ rating.value }}</span>
+					{% if rating.author == user or user.is_superuser %}
+						<a href="{% url 'rating-edit' article.slug rating.id %}" class="editing">Изменить</a>
+						<a href="{% url 'rating-delete' rating.id %}" class="editing">Удалить</a>
+					{% endif %}
+				</li>
+			{% empty %}
+				Оценок пока нет.
+			{% endfor %}
+		</ul>
+	</div>
+	<div class="popup-block" hidden>
+		<form method="post" id="popup-form">
+			{% csrf_token %}
+			<!-- Для формы комментария, файла и оценки. -->
+		</form>
+	</div>
+{% endblock %}
+{% block search %}
+	<div class="search-form">
+		<form href="{% url 'search-results' %}" method="post">
+			{% csrf_token %}
+			<input name='search_string' type="search" class="search-input" placeholder="Поиск">
+		</form>
+	</div>
+{% endblock %}
+{% block scripts %}
+	<script src="{% static 'kb/js/comment_add.js' %}" type="text/javascript"></script>
+{% endblock %}

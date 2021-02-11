@@ -1,0 +1,21 @@
+{% extends 'scripts/base.html' %}
+{% block title %}{{ user.get_username }} dashboard{% endblock %}
+{% block content %}
+  {% if user.is_authenticated %}
+    <h2 id="main-header">Welcome, {{ user.get_username }}{% if superuser %}(su){% endif %}!</h2>
+    <h3>Your scripts:</h3>
+    <ul>
+      {% for script in scripts %}
+        <li>
+          <a href="{{ script.get_absolute_url }}">{{ script.name }}</a>
+          <p>{{ script.description }}</p>
+        </li>
+      {% empty %}
+        There are no scripts yet!
+      {% endfor %}
+    </ul>
+  {% else %}
+    <h2>Welcome!</h2>
+    <p>Please <a href="{% url 'login' %}">login</a>.</p>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'shop/base.html' %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+  <h2 id="main-header">Вход</h2>
+  {% if form.errors %}
+    <p class="error">Логин и пароль не совпадают. Попробуйте снова.</p>
+  {% else %}
+    <p>Введите Ваши данные:</p>
+  {% endif %}
+  <form action="." method="post">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <p><input type="submit" value="Войти"></p>
+  </form>
+{% endblock %}

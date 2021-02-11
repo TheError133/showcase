@@ -1,0 +1,27 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block title %}Список товаров магазина{% endblock %}
+{% block content %}
+  <div class="product-list-page">
+    <h2 style="text-align: center;">Список товаров магазина</h2>
+    <ul class="product-list">
+      {% for product in product_list %}
+        <li class="product-list-element">
+          <div id="product-name">{{ product.name }}</div>
+          <div id="product-price">Цена: <strong>{{ product.price }} &#8381;</strong></div>
+          {% if product.image %}
+            <img src="{{ product.image.url }}" id="product-image">
+          {% endif %}
+          <p id="product-description">{{ product.description|linebreaksbr }}</p>
+          <button id="product-button-add">Добавить</button>
+          <button id="product-button-remove">Убрать</button>
+        </li>
+      {% empty %}
+        В настоящий момент список пуст.
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}
+{% block scripts %}
+  <script type="text/javascript" src="{% static 'shop/js/cart.js' %}"></script>
+{% endblock %}

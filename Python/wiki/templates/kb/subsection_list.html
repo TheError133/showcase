@@ -1,0 +1,52 @@
+{% extends 'kb/base.html' %}
+{% load static %}
+{% block title %}
+	Подраздел "{{ section.name }}"
+{% endblock %}
+{% block content %}
+	<h1>{{ section.name }}</h1>
+	{% if section.author == user or user.is_superuser %}
+		<div class="update-delete">
+			<a href="{% url 'subsection-edit' section.slug %}" class="editing">Изменить раздел</a>
+			<a href="{% url 'subsection-delete' section.slug %}" class="editing" id="update-delete">Удалить раздел</a>
+		</div>
+	{% endif %}
+	<p>
+		<span id="main-header">Подразделы</span>
+		{% if user.is_authenticated %}
+			<a href="{% url 'subsection-add' section.slug %}" class="link-add">Добавить подраздел</a>
+		{% endif %}
+	</p>
+	<ul>
+		{% for subsection in subsections %}
+			<li>
+				<a href="{{ subsection.get_absolute_url }}">{{ subsection.name }}</a>
+			</li>
+		{% empty %}
+			Список в настоящий момент пуст.
+		{% endfor %}
+	</ul>
+	<p>
+		<span id="main-header">Статьи</span>
+		{% if user.is_authenticated %}
+			<a href="{% url 'article-add' section.slug %}" class="link-add">Добавить статью</a>
+		{% endif %}
+	</p>
+	<ul>
+		{% for article in articles %}
+			<li>
+				<a href="{{ article.get_absolute_url }}">{{ article.name }}</a>
+			</li>
+		{% empty %}
+			Список в настоящий момент пуст.
+		{% endfor %}
+	</ul>
+{% endblock %}
+{% block search %}
+	<div class="search-form">
+		<form href="{% url 'search-results' %}" method="post">
+			{% csrf_token %}
+			<input name='search_string'  type="search" class="search-input" placeholder="Поиск">
+		</form>
+	</div>
+{% endblock %}

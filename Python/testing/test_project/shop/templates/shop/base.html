@@ -1,0 +1,15 @@
+{% load static %}
+<!DOCTYPE html>
+<head>
+  <title>
+    {% block title %}{% endblock %}
+  </title>
+  <link rel="stylesheet" type="text/css" href="{% static 'shop/css/styles.css' %}">
+</head>
+<body>
+  <div class="main">
+    {% block content %}{% endblock %}
+  </div>
+  {{user.id|json_script:'user_id'}}
+  {% block scripts %}{% endblock %}
+</body>

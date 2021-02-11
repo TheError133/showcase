@@ -1,0 +1,39 @@
+{% extends 'kb/base.html' %}
+{% load static %}
+{% block title %}
+	Результаты поиска
+{% endblock %}
+{% block content %}
+	<h2 class="search-result-header">Результаты поиска строки "{{ search_string }}"</h2>
+	{% if not sections and not articles %}
+		<h3 id="no-results">Результатов нет.</h3>
+	{% endif %}
+	{% if sections %}
+		<span id="main-header">Разделы</span>
+		<ul>
+			{% for section in sections %}
+				<li>
+					<a href="{{ section.get_absolute_url }}">{{ section.name }}</a>
+				</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+	{% if articles %}
+		<span id="main-header">Статьи</span>
+		<ul>
+			{% for article in articles %}
+				<li>
+					<a href="{{ article.get_absolute_url }}">{{ article.name }}</a>
+				</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+{% endblock %}
+{% block search %}
+	<div class="search-form">
+		<form href="{% url 'search-results' %}" method="post">
+			{% csrf_token %}
+			<input name='search_string'  type="search" class="search-input" placeholder="Поиск">
+		</form>
+	</div>
+{% endblock %}

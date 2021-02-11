@@ -1,0 +1,14 @@
+{% extends 'kb/base.html' %}
+{% load static %}
+{% block title %}
+	Корректировка раздела
+{% endblock %}
+{% block content %}
+	<div class="edit-form">
+		<form method="post" class="edit-form">
+			{{ form.as_p }}
+			{% csrf_token %}
+			<input type="submit" value="Сохранить">
+		</form>
+	</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block title %}Личный кабинет пользователя {{ user_balance.user.username }}{% endblock %}
+{% block content %}
+  <div class="user-detail-page">
+    <h1>Личный кабинет пользователя {{ user_balance.user.username }}</h1>
+    <div class="balance">
+      <p>Текущий баланс: <span id="balance-value">{{ user_balance.balance }}</span> р.</p>
+    </div>
+    <div class="user-cart">
+      <h3>Корзина:</h3>
+    </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+  <script type="text/javascript" src="{% static 'shop/js/cart.js' %}"></script>
+{% endblock %}

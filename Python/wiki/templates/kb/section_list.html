@@ -1,0 +1,31 @@
+{% extends 'kb/base.html' %}
+{% load static %}
+{% block title %}
+	Основной раздел базы знаний
+{% endblock %}
+{% block content %}
+	<h1>Главная страница</h1>
+	<p>
+		<span id="main-header">Разделы</span>
+		{% if user.is_authenticated %}
+			<a href="{% url 'section-add' %}" class="link-add">Добавить раздел</a>
+		{% endif %}
+	</p>
+	<ul>
+		{% for section in sections %}
+			<li>
+				<a href="{{ section.get_absolute_url }}">{{ section.name }}</a>
+			</li>
+		{% empty %}
+			Список в настоящий момент пуст.
+		{% endfor %}
+	</ul>
+{% endblock %}
+{% block search %}
+	<div class="search-form">
+		<form href="{% url 'search-results' %}" method="post">
+			{% csrf_token %}
+			<input name='search_string'  type="search" class="search-input" placeholder="Поиск">
+		</form>
+	</div>
+{% endblock %}

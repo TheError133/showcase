@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8">
+		<title>{% block title %}{% endblock %}</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'kb/css/style.css' %}">
+		{{ form.media }}
+	</head>
+	<body>
+		<div class="main">
+			{% block content %}{% endblock %}
+			{% block scripts %}{% endblock %}
+		</div>
+		<div id="header-nav">
+			<ul>
+				<li><a href="{% url 'section-list' %}">Вернуться на главную</a></li>
+				{% if user.is_authenticated %}
+					<li class="right-nav"><a href="{% url 'logout' %}">Выйти</a></li>
+					<li class="right-nav"><a href="{% url 'password-change' %}">Сменить пароль</a></li>
+				{% else %}
+					<li class="right-nav"><a href="{% url 'login' %}">Войти</a></li>
+					<li class="right-nav"><a href="{% url 'user-create' %}">Зарегистрироваться</a></li>
+				{% endif %}
+			</ul>
+		</div>
+		{% block search %}{% endblock %}
+	</body>
+</html>

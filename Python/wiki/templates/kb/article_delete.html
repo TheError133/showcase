@@ -1,0 +1,15 @@
+{% extends 'kb/base.html' %}
+{% load static %}
+{% block title %}
+	Удаление статьи
+{% endblock %}
+{% block content %}
+	<div class="delete-form">
+		<form method="post" class="delete-form">
+			<h3>Вы уверены, что хотите удалить статью "{{ object }}"?</h3>
+			{{ form.as_p }}
+			{% csrf_token %}
+			<input type="submit" value="Удалить">
+		</form>
+	</div>
+{% endblock %}

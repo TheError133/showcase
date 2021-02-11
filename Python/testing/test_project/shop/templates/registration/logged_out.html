@@ -1,0 +1,6 @@
+{% extends 'shop/base.html' %}
+{% block title %}Вы вышли{% endblock %}
+{% block content %}
+  <h2 id="main-header">Вы вышли</h2>
+  <p>Вы можете <a href="{% url 'shop:login' %}"></a>войти повторно</a>.</p>
+{% endblock %}

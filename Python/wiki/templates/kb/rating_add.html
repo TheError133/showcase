@@ -1,0 +1,15 @@
+{% extends 'kb/base.html' %}
+{% load static %}
+{% block title %}
+	Добавление оценки
+{% endblock %}
+{% block content %}
+	<div class="creation-form">
+		<h2>Заполните форму ниже</h2>
+		<form method="post" class="creation-form">
+			{{ form.as_p }}
+			{% csrf_token %}
+			<input type="submit" value="Добавить">
+		</form>
+	</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'kb/base.html' %}
+{% load static %}
+{% block title %}
+	Изменение статьи
+{% endblock %}
+{% block content %}
+	<div class="edit-form">
+		<h2>Заполните форму ниже</h2>
+		<form method="post" class="edit-form">
+			{{ form.as_p }}
+			{% csrf_token %}
+			<input type="submit" value="Сохранить">
+		</form>
+	</div>
+{% endblock %}
