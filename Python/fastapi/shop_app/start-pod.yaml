@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fastapi-test-app
+  labels:
+    app: fastapi-test-app
+spec:
+  restartPolicy: Always
+
+  containers:
+    - name: mongodb
+      image: theerror133/mongodb
+
+    - name: fastapi
+      image: theerror133/fastapi-test
+      ports:
+        - containerPort: 8000
